@@ -1,23 +1,22 @@
-name: Unity License Activation
+name: Unity Activation File
 
 on:
   workflow_dispatch:
 
 jobs:
   activation:
-    name: Create Unity Activation File
+    name: Generate Unity Activation File
     runs-on: ubuntu-latest
 
     steps:
-      - name: Install Unity activation tools
-        run: |
-          wget -q https://download.unity3d.com/download_unity/6f7d4e5e9b2a/UnitySetup-Linux-Unity.tar.xz -O unity.tar.xz || true
+      - name: Generate activation file
+        id: activation
+        uses: webbertakken/unity-request-manual-activation@v1
+        with:
+          unityVersion: 6000.3.11f1
 
-      - name: Create activation file
-        env:
-          UNITY_EMAIL: ${{ secrets.UNITY_EMAIL }}
-          UNITY_PASSWORD: ${{ secrets.UNITY_PASSWORD }}
-        run: |
-          echo "Preparing Unity activation..."
-          echo "Unity version: 6000.3.11f1"
-          echo "Email configured: yes"
+      - name: Upload activation file
+        uses: actions/upload-artifact@v4
+        with:
+          name: Unity-Activation-File
+          path: ${{ steps.activation.outputs.filePath }}
