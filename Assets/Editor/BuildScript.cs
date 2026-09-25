@@ -1,6 +1,6 @@
 using UnityEditor;
 using UnityEditor.Build.Reporting;
-using UnityEngine;
+using System;
 
 public static class BuildScript
 {
@@ -8,7 +8,7 @@ public static class BuildScript
     {
         string[] scenes =
         {
-            "Assets/Scenes/Day.unity"
+            "Assets/City - 02 - Day.unity"
         };
 
         string outputPath = "build/City02.apk";
@@ -25,14 +25,13 @@ public static class BuildScript
 
         if (report.summary.result != BuildResult.Succeeded)
         {
-            throw new System.Exception(
+            throw new Exception(
                 "Android build failed: " + report.summary.result
             );
         }
 
-        Debug.Log(
-            "Android APK created successfully: " +
-            outputPath
+        UnityEngine.Debug.Log(
+            "APK created successfully: " + outputPath
         );
     }
 }
